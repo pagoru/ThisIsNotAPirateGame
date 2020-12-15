@@ -3,6 +3,7 @@ import {ComponentEnum} from "../../components/component/component.enum";
 import {TargetDirectionEnum} from "../../components/targetDirection/targetDirection.enum";
 import {EntityEnum} from "../entity/entity.enum";
 import * as PIXI from "pixi.js";
+import {TexturesEnum} from "../../../canvas/textures.enum";
 
 export class Player extends EntityAbstract {
 
@@ -15,7 +16,7 @@ export class Player extends EntityAbstract {
         this.addComponent(ComponentEnum.TARGET_DIRECTION, { [ComponentEnum.TARGET_DIRECTION]: { direction } } );
         this.addComponent(ComponentEnum.POSITION, { [ComponentEnum.POSITION]: position } );
         this.addComponent(ComponentEnum.TAG, { [ComponentEnum.TAG]: { username } });
-        this.addComponent(ComponentEnum.SPRITE, { [ComponentEnum.SPRITE]: { visible: true, texture: 'player' } });
+        this.addComponent(ComponentEnum.SPRITE, { [ComponentEnum.SPRITE]: { visible: true, texture: TexturesEnum.SHIP_PIRATE_1 } });
         this.addComponent(ComponentEnum.FOLLOW_CAMERA, { [ComponentEnum.FOLLOW_CAMERA]: { follow: true } });
     }
 

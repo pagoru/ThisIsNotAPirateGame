@@ -16,10 +16,10 @@ export class SplashScreen extends ScreenAbstract {
         }));
         poweredText.position.set(-20, -15);
 
-        const logo = new PIXI.Sprite(Program.getInstance().canvas.textures.get('logo'));
-        logo.pivot.x = logo.texture.orig.width / 2;
+        // const logo = new PIXI.Sprite(Program.getInstance().canvas.textures.get('logo'));
+        // logo.pivot.x = logo.texture.orig.width / 2;
 
-        this.addChild(poweredText, logo)
+        this.addChild(poweredText)
     }
 
     protected onRemoved() {

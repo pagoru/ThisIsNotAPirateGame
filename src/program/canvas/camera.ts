@@ -10,7 +10,7 @@ export class Camera  {
     private _targetStagePosition: PIXI.IPoint;
 
     constructor() {
-        this._scale = 3;
+        this._scale = 1;
 
         Events.on(EventEnum.WINDOW_RESIZE, this.onWindowResize);
         Events.on(EventEnum.UPDATE, this.update);

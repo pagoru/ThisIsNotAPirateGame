@@ -35,24 +35,24 @@ export class GameScreen extends ScreenAbstract {
         const { canvas } = Program.getInstance();
         const { camera } = canvas;
 
-        switch (key.keyboardEvent.key) {
-            case 'ArrowRight':
+        switch (key.keyboardEvent.code) {
+            case 'KeyD':
                 camera.move({ x: -30, y: 0 });
                 break;
-            case 'ArrowLeft':
+            case 'KeyA':
                 camera.move({ x: 30, y: 0 });
                 break;
-            case 'ArrowUp':
+            case 'KeyW':
                 camera.move({ x: 0, y: 30 });
                 break;
-            case 'ArrowDown':
+            case 'KeyS':
                 camera.move({ x: 0, y: -30 });
                 break;
-            case '+':
+            case 'NumpadAdd':
                 if(!key.isDown) return;
                 camera.scale++;
                 break;
-            case '-':
+            case 'NumpadSubtract':
                 if(!key.isDown) return;
                 camera.scale--;
                 break;

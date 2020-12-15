@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import {Events} from "../events/events";
 import {EventEnum} from "../events/event/event.enum";
+import {TexturesEnum} from "./textures.enum";
 
 type TextureMap = {
     [id in string]: PIXI.Texture
@@ -18,7 +19,7 @@ export class Textures {
         PIXI.utils.clearTextureCache();
 
         // individual texture list
-        this.addTexture('logo');
+        this.addTexture('cursor');
 
         // sprite sheet list
         this.addSpriteSheet('entities');
@@ -34,17 +35,17 @@ export class Textures {
         Events.emit(EventEnum.TEXTURES_LOAD);
     }
 
-    get = (name: string): PIXI.Texture => {
+    get = (name: TexturesEnum): PIXI.Texture => {
         if(!this.textureMap[name])
             this.textureMap[name] = new PIXI.Texture(PIXI.Texture.WHITE.baseTexture);
         return this.textureMap[name];
     }
 
-    private addTexture = (name: string) => {
+    protected addTexture = (name: string) => {
         this._addTexture(name, this._getTexture(require(`assets/${name}.png`)))
     }
 
-    private addSpriteSheet = (name: string) => {
+    protected addSpriteSheet = (name: string) => {
         new PIXI.Spritesheet(
             this._getTexture(require(`assets/sprites/${name}/${name}.png`)),
             require(`assets/sprites/${name}/${name}.json`)
@@ -59,7 +60,7 @@ export class Textures {
     }
 
     private _addTexture = (id: string, texture: PIXI.Texture) => {
-        const _texture = this.get(id);
+        const _texture = this.get(id as TexturesEnum);
         _texture.valid = false;
         _texture.baseTexture.resolution = 16
         _texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST

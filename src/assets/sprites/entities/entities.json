@@ -1,44 +1,50 @@
-{ "frames": {
-   "player": {
-    "frame": { "x": 0, "y": 0, "w": 8, "h": 16 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 8, "h": 16 },
-    "sourceSize": { "w": 64, "h": 64 },
-    "duration": 100
-   },
-   "enemy": {
-    "frame": { "x": 8, "y": 0, "w": 8, "h": 16 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 12, "y": 0, "w": 8, "h": 16 },
-    "sourceSize": { "w": 64, "h": 64 },
-    "duration": 100
-   },
-   "cursor": {
-    "frame": { "x": 16, "y": 0, "w": 4, "h": 4 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 26, "y": 2, "w": 4, "h": 4 },
-    "sourceSize": { "w": 64, "h": 64 },
-    "duration": 100
-   }
- },
- "meta": {
-  "app": "http://www.aseprite.org/",
-  "version": "1.2.25-x64",
-  "image": "entities.png",
-  "format": "RGBA8888",
-  "size": { "w": 64, "h": 64 },
-  "scale": "1",
-  "frameTags": [
-  ],
-  "layers": [
-   { "name": "player", "opacity": 255, "blendMode": "normal" },
-   { "name": "enemy", "opacity": 255, "blendMode": "normal" },
-   { "name": "cursor", "opacity": 255, "blendMode": "normal" }
-  ],
-  "slices": [
-  ]
- }
+{"frames": {
+
+"ship (2).png":
+{
+	"frame": {"x":0,"y":0,"w":66,"h":113},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":113},
+	"sourceSize": {"w":66,"h":113},
+	"anchor": {"x":0.5,"y":0.5}
+},
+"ship (8).png":
+{
+	"frame": {"x":66,"y":0,"w":66,"h":113},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":113},
+	"sourceSize": {"w":66,"h":113},
+	"anchor": {"x":0.5,"y":0.5}
+},
+"ship (14).png":
+{
+	"frame": {"x":132,"y":0,"w":66,"h":113},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":113},
+	"sourceSize": {"w":66,"h":113},
+	"anchor": {"x":0.5,"y":0.5}
+},
+"spaceStation_022.png":
+{
+	"frame": {"x":198,"y":0,"w":172,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":172,"h":40},
+	"sourceSize": {"w":172,"h":40},
+	"anchor": {"x":0.5,"y":0.5}
+}},
+"animations": {
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "entities.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:5ee7f82acb244211eac7c61e5937c395:22414f6f057dac5de6ff84d30603fd9f:d80676a5e85c5032e708efda4f84d8e3$"
+}
 }

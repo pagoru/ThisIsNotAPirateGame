@@ -1,7 +1,7 @@
-
 import {SpriteInterface} from "./sprite.interface";
 import {ComponentEnum} from "../component/component.enum";
 import {ComponentAbstract} from "../component/component.abstract";
+import {TexturesEnum} from "../../../canvas/textures.enum";
 
 export class Sprite extends ComponentAbstract<SpriteInterface> {
 
@@ -11,7 +11,7 @@ export class Sprite extends ComponentAbstract<SpriteInterface> {
             {
                 [ComponentEnum.SPRITE]: {
                     visible: true,
-                    texture: 'error'
+                    texture: TexturesEnum.ERROR
                 }
             }
         );

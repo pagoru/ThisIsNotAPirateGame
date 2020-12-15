@@ -3,6 +3,7 @@ import {Program} from "../program";
 import {Events} from "../events/events";
 import {EventEnum} from "../events/event/event.enum";
 import {isPositionInsideContainer} from "../utils/positions.utils";
+import {TexturesEnum} from "./textures.enum";
 
 export class Cursor extends PIXI.Sprite {
 
@@ -18,7 +19,7 @@ export class Cursor extends PIXI.Sprite {
     }
 
     private load = () => {
-        this.texture = Program.getInstance().canvas.textures.get('cursor');
+        this.texture = Program.getInstance().canvas.textures.get(TexturesEnum.CURSOR);
         this.texture.update();
     }
 
