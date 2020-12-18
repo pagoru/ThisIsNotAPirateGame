@@ -1,9 +1,12 @@
 
 export enum ComponentEnum {
     POSITION =          'POSITION',
-    TAG =               'TAG',
     TARGET_DIRECTION =  'TARGET_DIRECTION',
     CONTAINER =         'CONTAINER',
     SPRITE =            'SPRITE',
-    FOLLOW_CAMERA =     'FOLLOW_CAMERA'
+    CAMERA_CONTROL =    'CAMERA_CONTROL',
+    ROTATION =          'ROTATION',
+    KEYBOARD_CONTROL =  'KEYBOARD_CONTROL',
+    ACCELERATION =      'ACCELERATION',
+    PIVOT =             'PIVOT'
 }

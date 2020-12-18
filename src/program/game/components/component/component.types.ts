@@ -1,14 +1,20 @@
 import {PositionInterface} from "../position/position.interface";
-import {TagInterface} from "../tag/tag.interface";
 import {TargetDirectionInterface} from "../targetDirection/targetDirection.interface";
 import {ContainerInterface} from "../container/container.interface";
 import {SpriteInterface} from "../sprite/sprite.interface";
-import {FollowCameraInterface} from "../followCamera/followCamera.interface";
+import {CameraControlInterface} from "../cameraControl/cameraControl.interface";
+import {RotationInterface} from "../rotation/rotation.interface";
+import {KeyboardControlInterface} from "../keyboardControl/keyboardControl.interface";
+import {AccelerationInterface} from "../acceleration/acceleration.interface";
+import {PivotInterface} from "../pivot/pivot.interface";
 
 export type ComponentTypes =
     | PositionInterface
-    | TagInterface
     | TargetDirectionInterface
     | ContainerInterface
     | SpriteInterface
-    | FollowCameraInterface
+    | CameraControlInterface
+    | RotationInterface
+    | KeyboardControlInterface
+    | AccelerationInterface
+    | PivotInterface

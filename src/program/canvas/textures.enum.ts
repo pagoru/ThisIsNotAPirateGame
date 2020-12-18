@@ -4,9 +4,17 @@ export enum TexturesEnum {
 
     CURSOR = 'cursor',
 
-    SATELLITE_BLUE = 'spaceStation_022.png',
+    SHIP_1 = 'ship (1)',
 
-    SHIP_PIRATE_1 = 'ship (2).png',
-    SHIP_PIRATE_2 = 'ship (8).png',
-    SHIP_PIRATE_3 = 'ship (14).png',
+    TILE_06 = 'tile_06',
+    TILE_07 = 'tile_07',
+    TILE_09 = 'tile_09',
+
+    TILE_22 = 'tile_22',
+    TILE_24 = 'tile_24',
+    TILE_25 = 'tile_25',
+
+    TILE_33 = 'tile_33',
+    TILE_34 = 'tile_34',
+    TILE_35 = 'tile_35',
 }

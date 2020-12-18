@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import {ScreenAbstract} from "../screen/screen.abstract";
 import {EventEnum} from "../../../events/event/event.enum";
-import {Program} from "../../../program";
+// import {Program} from "../../../program";
 import {KeyboardDataType} from "../../../events/callback/keyboard/keyboard.data.type";
 import {ScreenEnum} from "../screen/screen.enum";
 import {Sandbox} from "../../sandbox";
@@ -30,33 +30,33 @@ export class GameScreen extends ScreenAbstract {
     }
 
     private onKeyboardKey(key: KeyboardDataType) {
-        if(!this.visible) return;
-
-        const { canvas } = Program.getInstance();
-        const { camera } = canvas;
-
-        switch (key.keyboardEvent.code) {
-            case 'KeyD':
-                camera.move({ x: -30, y: 0 });
-                break;
-            case 'KeyA':
-                camera.move({ x: 30, y: 0 });
-                break;
-            case 'KeyW':
-                camera.move({ x: 0, y: 30 });
-                break;
-            case 'KeyS':
-                camera.move({ x: 0, y: -30 });
-                break;
-            case 'NumpadAdd':
-                if(!key.isDown) return;
-                camera.scale++;
-                break;
-            case 'NumpadSubtract':
-                if(!key.isDown) return;
-                camera.scale--;
-                break;
-        }
+        // if(!this.visible) return;
+        //
+        // const { canvas } = Program.getInstance();
+        // const { camera } = canvas;
+        //
+        // switch (key.keyboardEvent.code) {
+        //     case 'KeyD':
+        //         camera.move({ x: -30, y: 0 });
+        //         break;
+        //     case 'KeyA':
+        //         camera.move({ x: 30, y: 0 });
+        //         break;
+        //     case 'KeyW':
+        //         camera.move({ x: 0, y: 30 });
+        //         break;
+        //     case 'KeyS':
+        //         camera.move({ x: 0, y: -30 });
+        //         break;
+        //     case 'NumpadAdd':
+        //         if(!key.isDown) return;
+        //         camera.scale++;
+        //         break;
+        //     case 'NumpadSubtract':
+        //         if(!key.isDown) return;
+        //         camera.scale--;
+        //         break;
+        // }
     }
 
 }

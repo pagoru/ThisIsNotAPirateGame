@@ -18,8 +18,7 @@ export abstract class ScreenAbstract extends ContainerAbstract {
 
     protected onAdded() {
         super.onAdded();
-        console.log('screen camera?')
-        Program.getInstance().canvas.camera.set({ x: 0, y: 0 });
+        // Program.getInstance().canvas.camera.set({ x: 0, y: 0 });
     }
 
     protected abstract update(delta: number);

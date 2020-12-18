@@ -1,19 +1,25 @@
 import {ComponentEnum} from "./component.enum";
 import {PositionInterface} from "../position/position.interface";
-import {TagInterface} from "../tag/tag.interface";
 import {TargetDirectionInterface} from "../targetDirection/targetDirection.interface";
 import {ContainerInterface} from "../container/container.interface";
 import {SpriteInterface} from "../sprite/sprite.interface";
-import {FollowCameraInterface} from "../followCamera/followCamera.interface";
+import {CameraControlInterface} from "../cameraControl/cameraControl.interface";
+import {RotationInterface} from "../rotation/rotation.interface";
+import {KeyboardControlInterface} from "../keyboardControl/keyboardControl.interface";
+import {AccelerationInterface} from "../acceleration/acceleration.interface";
+import {PivotInterface} from "../pivot/pivot.interface";
 
 // TODO: Can we check that all enum items are updated here? Otherwise this map needs to be updated manually
 export type ComponentTypeInterfaceMap = {
-    [ComponentEnum.TAG]: TagInterface,
     [ComponentEnum.CONTAINER]: ContainerInterface,
     [ComponentEnum.SPRITE]: SpriteInterface,
     [ComponentEnum.TARGET_DIRECTION]: TargetDirectionInterface,
     [ComponentEnum.POSITION]: PositionInterface,
-    [ComponentEnum.FOLLOW_CAMERA]: FollowCameraInterface,
+    [ComponentEnum.CAMERA_CONTROL]: CameraControlInterface,
+    [ComponentEnum.ROTATION]: RotationInterface,
+    [ComponentEnum.KEYBOARD_CONTROL]: KeyboardControlInterface,
+    [ComponentEnum.ACCELERATION]: AccelerationInterface,
+    [ComponentEnum.PIVOT]: PivotInterface,
 }
 
 // Overload function declaration => https://stackoverflow.com/questions/50374908/transform-union-type-to-intersection-type

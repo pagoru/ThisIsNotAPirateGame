@@ -4,8 +4,9 @@ import {ComponentEnum} from "../../components/component/component.enum";
 import {PositionInterface} from "../../components/position/position.interface";
 import {EntityAbstract} from "../../entities/entity/entity.abstract";
 import {Program} from "../../../program";
-import {TagInterface} from "../../components/tag/tag.interface";
 import {SpriteInterface} from "../../components/sprite/sprite.interface";
+import {RotationInterface} from "../../components/rotation/rotation.interface";
+import {PivotInterface} from "../../components/pivot/pivot.interface";
 
 export class RenderableSprite extends SystemAbstract {
 
@@ -19,29 +20,24 @@ export class RenderableSprite extends SystemAbstract {
     initEntity(entity: EntityAbstract) {
         const {
             [ComponentEnum.POSITION]: position,
+            [ComponentEnum.PIVOT]: pivot,
+            [ComponentEnum.ROTATION]: rotation,
             [ComponentEnum.SPRITE]: sprite,
-            [ComponentEnum.TAG]: tag
-        } = entity.getData<PositionInterface & SpriteInterface & TagInterface>();
+        } = entity.getData<PositionInterface & RotationInterface & SpriteInterface & PivotInterface>();
 
         if(!sprite.visible) return;
 
-        const spriteEntity = new PIXI.Sprite(Program.getInstance().canvas.textures.get(sprite.texture));
+        const texture = Program.getInstance().canvas.textures.get(sprite.texture);
+        const spriteEntity = new PIXI.Sprite(texture);
         spriteEntity.name = entity.id;
         spriteEntity.position.set(position.x, position.y);
+        spriteEntity.pivot.set(texture.orig.width / 2, texture.orig.height / 2);
         spriteEntity.interactive = true;
-        spriteEntity.on('click', () => {
-            if(tag)
-                console.log(tag.username);
-        });
 
-        if(tag) {
-            const text = new PIXI.Text(tag.username, new PIXI.TextStyle({
-                fontSize: 5,
-                fill: '#9bbc0f'
-            }));
-            text.position.set(-4, -8);
-
-            spriteEntity.addChild(text);
+        if(rotation) spriteEntity.angle = rotation.angle;
+        if(pivot){
+            spriteEntity.pivot.x += pivot.x;
+            spriteEntity.pivot.y += pivot.y;
         }
 
         Program.getInstance().canvas.stage.addChild(spriteEntity);
@@ -49,13 +45,20 @@ export class RenderableSprite extends SystemAbstract {
 
     updateEntity(delta: number, entity: EntityAbstract) {
         const {
+            [ComponentEnum.POSITION]: position,
+            [ComponentEnum.ROTATION]: rotation,
             [ComponentEnum.SPRITE]: sprite
-        } = entity.getData<SpriteInterface>();
+        } = entity.getData<PositionInterface & RotationInterface & SpriteInterface>();
         const canvas = Program.getInstance().canvas;
 
         const spriteEntity = canvas.stage.getChildByName(entity.id);
 
-        if(!spriteEntity || sprite.visible) return;
+        if(!spriteEntity) return;
+
+        spriteEntity.position.copyFrom(position);
+        if(rotation) spriteEntity.angle = rotation.angle - 90;
+
+        if(sprite.visible) return;
 
         canvas.stage.removeChild(spriteEntity);
     }

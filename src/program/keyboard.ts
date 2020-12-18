@@ -4,8 +4,8 @@ import {EventEnum} from "./events/event/event.enum";
 export class Keyboard {
 
     constructor() {
-        window.addEventListener('keydown', this.onKeyDown, false);
-        window.addEventListener('keyup', this.onKeyUp, false);
+        window.addEventListener('keydown', this.onKeyDown);
+        window.addEventListener('keyup', this.onKeyUp);
     }
 
     private handler = (keyboardEvent: KeyboardEvent, isDown: boolean) => {

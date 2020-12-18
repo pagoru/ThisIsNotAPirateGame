@@ -38,8 +38,11 @@ export const componentsDefaultState = (): ComponentsState => ({
     [ComponentEnum.SPRITE]:                 { entities: [] },
     [ComponentEnum.CONTAINER]:              { entities: [] },
     [ComponentEnum.TARGET_DIRECTION]:       { entities: [] },
-    [ComponentEnum.TAG]:                    { entities: [] },
-    [ComponentEnum.FOLLOW_CAMERA]:          { entities: [] },
+    [ComponentEnum.CAMERA_CONTROL]:         { entities: [] },
+    [ComponentEnum.ROTATION]:               { entities: [] },
+    [ComponentEnum.KEYBOARD_CONTROL]:       { entities: [] },
+    [ComponentEnum.ACCELERATION]:           { entities: [] },
+    [ComponentEnum.PIVOT]:                  { entities: [] },
 });
 
 /** State **/

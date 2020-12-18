@@ -3,6 +3,7 @@ import {ScreenEnum} from "../screen/screen.enum";
 import {BackgroundGUI} from "../../gui/background/background.gui";
 import * as PIXI from "pixi.js";
 import {Program} from "../../../program";
+import {DATA} from "../../../constants.env";
 
 export class MenuScreen extends ScreenAbstract {
 
@@ -15,7 +16,6 @@ export class MenuScreen extends ScreenAbstract {
             fill: '#9bbc0f'
         }));
         menuText.position.set(-5, -35);
-
 
         const playText = new PIXI.Text('PLAY THE GAME', new PIXI.TextStyle({
             fontSize: 8,
@@ -41,6 +41,12 @@ export class MenuScreen extends ScreenAbstract {
         });
 
         this.addChild(menuText, playText);
+    }
+
+    protected onAdded() {
+        super.onAdded();
+        if(DATA.environment === 'development')
+            Program.getInstance().canvas.setScreen(ScreenEnum.GAME);
     }
 
     protected update(delta: number) {

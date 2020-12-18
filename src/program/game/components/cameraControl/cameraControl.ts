@@ -1,15 +1,15 @@
 
-import {FollowCameraInterface} from "./followCamera.interface";
+import {CameraControlInterface} from "./cameraControl.interface";
 import {ComponentEnum} from "../component/component.enum";
 import {ComponentAbstract} from "../component/component.abstract";
 
-export class FollowCamera extends ComponentAbstract<FollowCameraInterface> {
+export class CameraControl extends ComponentAbstract<CameraControlInterface> {
 
     constructor() {
         super(
-            ComponentEnum.FOLLOW_CAMERA,
+            ComponentEnum.CAMERA_CONTROL,
             {
-                [ComponentEnum.FOLLOW_CAMERA]: {
+                [ComponentEnum.CAMERA_CONTROL]: {
                     follow: true
                 }
             }

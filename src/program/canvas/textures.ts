@@ -19,10 +19,19 @@ export class Textures {
         PIXI.utils.clearTextureCache();
 
         // individual texture list
-        this.addTexture('cursor');
+        this.addTexture(TexturesEnum.CURSOR);
+        this.addTexture(TexturesEnum.SHIP_1);
 
-        // sprite sheet list
-        this.addSpriteSheet('entities');
+        this.addTexture(TexturesEnum.TILE_06);
+        this.addTexture(TexturesEnum.TILE_07);
+        this.addTexture(TexturesEnum.TILE_09);
+        this.addTexture(TexturesEnum.TILE_22);
+        this.addTexture(TexturesEnum.TILE_24);
+        this.addTexture(TexturesEnum.TILE_25);
+        this.addTexture(TexturesEnum.TILE_33);
+        this.addTexture(TexturesEnum.TILE_34);
+        this.addTexture(TexturesEnum.TILE_35);
+
     }
 
     update = (delta: number) => {
@@ -41,19 +50,19 @@ export class Textures {
         return this.textureMap[name];
     }
 
-    protected addTexture = (name: string) => {
+    protected addTexture = (name: TexturesEnum) => {
         this._addTexture(name, this._getTexture(require(`assets/${name}.png`)))
     }
 
-    protected addSpriteSheet = (name: string) => {
-        new PIXI.Spritesheet(
-            this._getTexture(require(`assets/sprites/${name}/${name}.png`)),
-            require(`assets/sprites/${name}/${name}.json`)
-        ).parse((_spriteSheet: TextureMap) => {
-            Object.entries(_spriteSheet)
-                .map(([id, texture]) => this._addTexture(id, texture));
-        });
-    }
+    // protected addSpriteSheet = (name: string) => {
+    //     new PIXI.Spritesheet(
+    //         this._getTexture(require(`assets/sprites/${name}/${name}.png`)),
+    //         require(`assets/sprites/${name}/${name}.json`)
+    //     ).parse((_spriteSheet: TextureMap) => {
+    //         Object.entries(_spriteSheet)
+    //             .map(([id, texture]) => this._addTexture(id, texture));
+    //     });
+    // }
 
     private _getTexture = (pathRequire: any): PIXI.Texture => {
         return PIXI.Texture.from(pathRequire.default)

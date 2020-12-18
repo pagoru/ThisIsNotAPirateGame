@@ -5,7 +5,6 @@ import {PositionInterface} from "../../components/position/position.interface";
 import {EntityAbstract} from "../../entities/entity/entity.abstract";
 import {ContainerInterface} from "../../components/container/container.interface";
 import {Program} from "../../../program";
-import {TagInterface} from "../../components/tag/tag.interface";
 
 export class RenderableContainer extends SystemAbstract {
 
@@ -20,7 +19,7 @@ export class RenderableContainer extends SystemAbstract {
         const {
             [ComponentEnum.POSITION]: position,
             [ComponentEnum.CONTAINER]: container
-        } = entity.getData<PositionInterface & ContainerInterface & TagInterface>();
+        } = entity.getData<PositionInterface & ContainerInterface>();
 
         if(!container.visible) return;
 
@@ -39,13 +38,18 @@ export class RenderableContainer extends SystemAbstract {
 
     updateEntity(delta: number, entity: EntityAbstract) {
         const {
+            [ComponentEnum.POSITION]: position,
             [ComponentEnum.CONTAINER]: container
-        } = entity.getData<ContainerInterface>();
+        } = entity.getData<PositionInterface & ContainerInterface>();
         const canvas = Program.getInstance().canvas;
 
         const containerEntity = canvas.stage.getChildByName(entity.id);
 
-        if(!containerEntity || container.visible) return;
+        if(!containerEntity) return;
+
+        containerEntity.position.copyFrom(position);
+
+        if(container.visible) return;
 
         canvas.stage.removeChild(containerEntity);
     }

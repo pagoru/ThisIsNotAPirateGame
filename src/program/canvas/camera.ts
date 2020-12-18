@@ -40,6 +40,9 @@ export class Camera  {
 
         const target = this._targetStagePosition;
 
+        const velocity = 10;
+        delta *= velocity;
+
         if(!target) return;
 
         const targetMove = {
@@ -73,10 +76,11 @@ export class Camera  {
     }
 
     public set = (targetPosition: PIXI.IPointData) => {
-        const { position } = Program.getInstance().canvas.stage;
+        const { canvas } = Program.getInstance();
+        const { position } = canvas.stage;
         this._targetStagePosition = undefined;
 
-        position.copyFrom(targetPosition);
+        position.set(targetPosition.x, targetPosition.y);
 
         this.dispatchRefreshEvent();
     }
@@ -88,6 +92,10 @@ export class Camera  {
             canvas.stage.position.x + position.x,
             canvas.stage.position.y + position.y
         );
+    }
+
+    public moveTo = (position: PIXI.IPointData) => {
+        this._targetStagePosition = new PIXI.Point().copyFrom(position);
     }
 
     public refresh = () => {
