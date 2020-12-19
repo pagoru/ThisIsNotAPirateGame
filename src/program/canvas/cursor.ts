@@ -3,7 +3,7 @@ import {Program} from "../program";
 import {Events} from "../events/events";
 import {EventEnum} from "../events/event/event.enum";
 import {isPositionInsideContainer} from "../utils/positions.utils";
-import {TexturesEnum} from "./textures.enum";
+import {TexturesEnum} from "./textures/textures.enum";
 
 export class Cursor extends PIXI.Sprite {
 

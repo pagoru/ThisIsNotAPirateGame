@@ -7,6 +7,7 @@ import {RotationInterface} from "../rotation/rotation.interface";
 import {KeyboardControlInterface} from "../keyboardControl/keyboardControl.interface";
 import {AccelerationInterface} from "../acceleration/acceleration.interface";
 import {PivotInterface} from "../pivot/pivot.interface";
+import {LifeInterface} from "../life/life.interface";
 
 export type ComponentTypes =
     | PositionInterface
@@ -18,3 +19,4 @@ export type ComponentTypes =
     | KeyboardControlInterface
     | AccelerationInterface
     | PivotInterface
+    | LifeInterface

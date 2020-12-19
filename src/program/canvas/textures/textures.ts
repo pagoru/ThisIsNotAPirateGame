@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
-import {Events} from "../events/events";
-import {EventEnum} from "../events/event/event.enum";
+import {Events} from "../../events/events";
+import {EventEnum} from "../../events/event/event.enum";
 import {TexturesEnum} from "./textures.enum";
 
 type TextureMap = {
@@ -18,19 +18,9 @@ export class Textures {
 
         PIXI.utils.clearTextureCache();
 
-        // individual texture list
-        this.addTexture(TexturesEnum.CURSOR);
-        this.addTexture(TexturesEnum.SHIP_1);
-
-        this.addTexture(TexturesEnum.TILE_06);
-        this.addTexture(TexturesEnum.TILE_07);
-        this.addTexture(TexturesEnum.TILE_09);
-        this.addTexture(TexturesEnum.TILE_22);
-        this.addTexture(TexturesEnum.TILE_24);
-        this.addTexture(TexturesEnum.TILE_25);
-        this.addTexture(TexturesEnum.TILE_33);
-        this.addTexture(TexturesEnum.TILE_34);
-        this.addTexture(TexturesEnum.TILE_35);
+    Object.values(TexturesEnum)
+        .filter(texture => texture !== TexturesEnum.ERROR)
+        .map(this.addTexture);
 
     }
 

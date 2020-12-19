@@ -43,6 +43,7 @@ export const componentsDefaultState = (): ComponentsState => ({
     [ComponentEnum.KEYBOARD_CONTROL]:       { entities: [] },
     [ComponentEnum.ACCELERATION]:           { entities: [] },
     [ComponentEnum.PIVOT]:                  { entities: [] },
+    [ComponentEnum.LIFE]:                   { entities: [] },
 });
 
 /** State **/

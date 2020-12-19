@@ -3,6 +3,7 @@ import {ComponentEnum} from "../../components/component/component.enum";
 import {PositionInterface} from "../../components/position/position.interface";
 import {EntityAbstract} from "../../entities/entity/entity.abstract";
 import {Program} from "../../../program";
+import {getInvertedPosition} from "../../../utils/positions.utils";
 
 export class EntityCamera extends SystemAbstract {
 
@@ -26,10 +27,14 @@ export class EntityCamera extends SystemAbstract {
             [ComponentEnum.POSITION]: position
         } = entity.getData<PositionInterface>();
 
-        Program.getInstance().canvas.camera.moveTo({
-            x: - position.x,
-            y: - position.y
-        });
+        const { camera } = Program.getInstance().canvas;
+
+        const targetCameraPosition = getInvertedPosition(position);
+
+        if(camera.position.equals(targetCameraPosition)) return;
+
+        camera.moveTo(targetCameraPosition);
+
     }
 
 }

@@ -7,6 +7,7 @@ import {Program} from "../../program";
 import {ScreenEnum} from "../../canvas/screens/screen/screen.enum";
 import {EntityControl} from "./entityControl/entityControl";
 import {EntityCamera} from "./entityCamera/entityCamera";
+import {SpriteLife} from "./spriteLife/spriteLife";
 
 export class Systems {
 
@@ -17,7 +18,8 @@ export class Systems {
             new RenderableSprite(),
             new RenderableContainer(),
             new EntityControl(),
-            new EntityCamera()
+            new EntityCamera(),
+            new SpriteLife()
         ];
         Events.on(EventEnum.UPDATE, this.update);
     }

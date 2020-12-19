@@ -1,7 +1,7 @@
 import {SpriteInterface} from "./sprite.interface";
 import {ComponentEnum} from "../component/component.enum";
 import {ComponentAbstract} from "../component/component.abstract";
-import {TexturesEnum} from "../../../canvas/textures.enum";
+import {TexturesEnum} from "../../../canvas/textures/textures.enum";
 
 export class Sprite extends ComponentAbstract<SpriteInterface> {
 

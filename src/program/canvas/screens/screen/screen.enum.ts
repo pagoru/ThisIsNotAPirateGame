@@ -4,4 +4,5 @@ export enum ScreenEnum {
     MENU =      'MENU',
     LOADING =   'LOADING',
     GAME =      'GAME',
+    GAME_OVER = 'GAME_OVER',
 }

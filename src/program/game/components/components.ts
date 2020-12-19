@@ -13,6 +13,7 @@ import {Rotation} from "./rotation/rotation";
 import {KeyboardControl} from "./keyboardControl/keyboardControl";
 import {Acceleration} from "./acceleration/acceleration";
 import {Pivot} from "./pivot/pivot";
+import {Life} from "./life/life";
 
 export class Components {
 
@@ -30,6 +31,7 @@ export class Components {
         this.addComponent(store, ComponentEnum.KEYBOARD_CONTROL, new KeyboardControl());
         this.addComponent(store, ComponentEnum.ACCELERATION, new Acceleration());
         this.addComponent(store, ComponentEnum.PIVOT, new Pivot());
+        this.addComponent(store, ComponentEnum.LIFE, new Life());
     }
 
     get list() {

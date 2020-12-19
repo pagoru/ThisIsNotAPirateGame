@@ -8,5 +8,6 @@ export enum ComponentEnum {
     ROTATION =          'ROTATION',
     KEYBOARD_CONTROL =  'KEYBOARD_CONTROL',
     ACCELERATION =      'ACCELERATION',
-    PIVOT =             'PIVOT'
+    PIVOT =             'PIVOT',
+    LIFE =              'LIFE'
 }
