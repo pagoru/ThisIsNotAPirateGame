@@ -3,7 +3,8 @@ import {ComponentEnum} from "../../components/component/component.enum";
 import {PositionInterface} from "../../components/position/position.interface";
 import {EntityAbstract} from "../../entities/entity/entity.abstract";
 import {Program} from "../../../program";
-import {getInvertedPosition} from "../../../utils/positions.utils";
+import {getInvertedPosition, getTilePosition} from "../../../utils/positions.utils";
+import {GameMap} from "../../entities/gameMap/gameMap";
 
 export class EntityCamera extends SystemAbstract {
 
@@ -33,7 +34,23 @@ export class EntityCamera extends SystemAbstract {
 
         if(camera.position.equals(targetCameraPosition)) return;
 
+        const currentTilePosition = getTilePosition(getInvertedPosition(camera.position));
+        const targetTilePosition = getTilePosition(position);
+
         camera.moveTo(targetCameraPosition);
+
+        if(currentTilePosition.equals(targetTilePosition)) return;
+
+        Program.getInstance().game.entities.get<GameMap>(GameMap.id)
+            .updateData<PositionInterface>({ [ComponentEnum.POSITION]: targetTilePosition })
+    }
+
+    protected onDataEntityUpdate(
+        entity,
+        componentEnums ,
+        oldEntityData,
+        newEntityData
+    ) {
 
     }
 

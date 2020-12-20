@@ -46,4 +46,13 @@ export class SpriteLife extends SystemAbstract {
         });
     }
 
+    protected onDataEntityUpdate(
+        entity,
+        componentEnums ,
+        oldEntityData,
+        newEntityData
+    ) {
+
+    }
+
 }

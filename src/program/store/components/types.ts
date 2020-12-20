@@ -44,6 +44,7 @@ export const componentsDefaultState = (): ComponentsState => ({
     [ComponentEnum.ACCELERATION]:           { entities: [] },
     [ComponentEnum.PIVOT]:                  { entities: [] },
     [ComponentEnum.LIFE]:                   { entities: [] },
+    [ComponentEnum.GAME_MAP]:               { entities: [] },
 });
 
 /** State **/

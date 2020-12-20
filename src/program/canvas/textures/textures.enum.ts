@@ -34,18 +34,17 @@ export enum TexturesEnum {
     SHIP_6_2 = 'ship_6_2',
     SHIP_6_3 = 'ship_6_3',
 
-    //be water my friend
-    TILE_73 = 'tile_73',
+    TILE_WATER = 'tile_water',
+    WATER_FILTER = 'water_filter',
 
-    TILE_06 = 'tile_06',
-    TILE_07 = 'tile_07',
-    TILE_09 = 'tile_09',
+    TILE_1_A = 'tile_1_A',
+    TILE_1_B = 'tile_1_B',
+    TILE_1_C = 'tile_1_C',
+    TILE_1_D = 'tile_1_D',
+    TILE_1_E = 'tile_1_E',
+    TILE_1_F = 'tile_1_F',
+    TILE_1_G = 'tile_1_G',
+    TILE_1_H = 'tile_1_H',
 
-    TILE_22 = 'tile_22',
-    TILE_24 = 'tile_24',
-    TILE_25 = 'tile_25',
-
-    TILE_33 = 'tile_33',
-    TILE_34 = 'tile_34',
-    TILE_35 = 'tile_35',
+    TILE_2_1 = 'tile_2_1',
 }

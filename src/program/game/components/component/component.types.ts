@@ -8,6 +8,7 @@ import {KeyboardControlInterface} from "../keyboardControl/keyboardControl.inter
 import {AccelerationInterface} from "../acceleration/acceleration.interface";
 import {PivotInterface} from "../pivot/pivot.interface";
 import {LifeInterface} from "../life/life.interface";
+import {GameMapInterface} from "../gameMap/gameMap.interface";
 
 export type ComponentTypes =
     | PositionInterface
@@ -20,3 +21,4 @@ export type ComponentTypes =
     | AccelerationInterface
     | PivotInterface
     | LifeInterface
+    | GameMapInterface

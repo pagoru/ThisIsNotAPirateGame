@@ -80,7 +80,7 @@ export class EntityControl extends SystemAbstract {
             targetTilePosition,
             rotation,
             life,
-        )
+        );
 
         entity.updateData<PositionInterface & RotationInterface & AccelerationInterface & LifeInterface>({
             [ComponentEnum.POSITION]: position,
@@ -99,8 +99,7 @@ export class EntityControl extends SystemAbstract {
     ) {
         if(currentTilePosition.equals(targetTilePosition)) return false;
 
-        console.log(currentTilePosition, targetTilePosition)
-
+        // detect array tiles
         if(targetTilePosition.equals({ x: 0, y: 0 })) {
             life.current--;
 
@@ -120,6 +119,15 @@ export class EntityControl extends SystemAbstract {
         }
 
         return false;
+    }
+
+    protected onDataEntityUpdate(
+        entity,
+        componentEnums ,
+        oldEntityData,
+        newEntityData
+    ) {
+
     }
 
 }

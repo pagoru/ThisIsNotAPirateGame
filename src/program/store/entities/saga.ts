@@ -5,6 +5,8 @@ import {
     addEntityDispatchActionSuccess, removeEntityDispatchActionSuccess,
     updateEntityDispatchActionSuccess
 } from "./dispatchers";
+import {Program} from "../../program";
+import {ComponentEnum} from "../../game/components/component/component.enum";
 
 /** Initial saga **/
 export function* entitiesSaga() {
@@ -22,6 +24,9 @@ function* add(action: IAddEntityAction<any>) {
 }
 
 function* update(action: IUpdateEntityAction<any>) {
+    Program.getInstance().game.systems
+        .getSystemsByComponents(Object.keys(action.entityData) as ComponentEnum[])
+        .map(system => system.onEntityDataUpdate(action.id, action.entityData));
     yield put<EntitiesActions>(updateEntityDispatchActionSuccess(action.id, action.entityData));
 }
 

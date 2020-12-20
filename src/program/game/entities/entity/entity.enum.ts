@@ -2,5 +2,6 @@
 export enum EntityEnum {
     NONE,
     PLAYER,
-    BAD_GUY
+    BAD_GUY,
+    GAME_MAP
 }

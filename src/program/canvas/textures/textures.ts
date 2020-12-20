@@ -50,7 +50,7 @@ export class Textures {
     //         require(`assets/sprites/${name}/${name}.json`)
     //     ).parse((_spriteSheet: TextureMap) => {
     //         Object.entries(_spriteSheet)
-    //             .map(([id, texture]) => this._addTexture(id, texture));
+    //             .gameMap(([id, texture]) => this._addTexture(id, texture));
     //     });
     // }
 

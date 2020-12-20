@@ -63,4 +63,13 @@ export class RenderableSprite extends SystemAbstract {
         canvas.stage.removeChild(spriteEntity);
     }
 
+    protected onDataEntityUpdate(
+        entity,
+        componentEnums ,
+        oldEntityData,
+        newEntityData
+    ) {
+
+    }
+
 }

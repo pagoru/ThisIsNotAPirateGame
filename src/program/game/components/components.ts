@@ -14,6 +14,7 @@ import {KeyboardControl} from "./keyboardControl/keyboardControl";
 import {Acceleration} from "./acceleration/acceleration";
 import {Pivot} from "./pivot/pivot";
 import {Life} from "./life/life";
+import {GameMap} from "./gameMap/gameMap";
 
 export class Components {
 
@@ -32,6 +33,7 @@ export class Components {
         this.addComponent(store, ComponentEnum.ACCELERATION, new Acceleration());
         this.addComponent(store, ComponentEnum.PIVOT, new Pivot());
         this.addComponent(store, ComponentEnum.LIFE, new Life());
+        this.addComponent(store, ComponentEnum.GAME_MAP, new GameMap());
     }
 
     get list() {
