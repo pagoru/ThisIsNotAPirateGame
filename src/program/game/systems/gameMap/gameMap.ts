@@ -7,7 +7,8 @@ import {GameMapInterface} from "../../components/gameMap/gameMap.interface";
 import {Program} from "../../../program";
 import {TexturesEnum} from "../../../canvas/textures/textures.enum";
 import {TILE_SIZE} from "../../../utils/tile.utils";
-import {Noise} from "noisejs";
+import {getPerlinBySeed} from "../../../utils/perlin.utils";
+import {getRandomNumber} from "../../../utils/number.utils";
 
 const MAP_CONTAINER = 'MAP_CONTAINER';
 const WATER_TILE_PARTICLE_CONTAINER = 'WATER_TILE_PARTICLE_CONTAINER';
@@ -24,7 +25,6 @@ export class GameMap extends SystemAbstract {
 
     protected initEntity(entity: EntityAbstract) {
         const {
-            [ComponentEnum.GAME_MAP]: gameMap,
             [ComponentEnum.POSITION]: position
         } = entity.getData<GameMapInterface & PositionInterface>();
 
@@ -44,7 +44,7 @@ export class GameMap extends SystemAbstract {
 
         mapContainer.addChild(waterTileParticleContainer, terrainTileContainer);
 
-        this.renderMap(position, gameMap.seed);
+        this.renderMap(position);
     }
 
     protected updateEntity(delta: number, entity: EntityAbstract) {
@@ -58,29 +58,16 @@ export class GameMap extends SystemAbstract {
         newEntityData: PositionInterface & GameMapInterface
     ) {
         const {
-            [ComponentEnum.POSITION]: oldPosition,
-        } = oldEntityData;
-
-        const {
             [ComponentEnum.POSITION]: newPosition
         } = newEntityData;
 
         if(componentEnums.includes(ComponentEnum.POSITION))
-            this.onPositionUpdate(entity, oldPosition, newPosition);
+            this.renderMap(newPosition);
 
-    }
-
-    private onPositionUpdate(entity: EntityAbstract, oldPosition: PIXI.IPointData, newPosition: PIXI.IPointData) {
-        const {
-            [ComponentEnum.GAME_MAP]: gameMap
-        } = entity.getData<GameMapInterface>();
-
-        this.renderMap(newPosition, gameMap.seed);
     }
 
     private renderMap(
-        position: PIXI.IPointData,
-        seed: number
+        position: PIXI.IPointData
     ) {
         const { textures, stage } = Program.getInstance().canvas;
 
@@ -92,9 +79,6 @@ export class GameMap extends SystemAbstract {
         terrainTileContainer.removeChildren();
 
         const waterTileTexture = textures.get(TexturesEnum.TILE_WATER);
-        const tileA = textures.get(TexturesEnum.TILE_2_1);
-
-        const noise = new Noise(seed);
 
         for (let y = -6; y < 7; y++) {
             for (let x = -9; x < 10; x++) {
@@ -112,17 +96,51 @@ export class GameMap extends SystemAbstract {
 
                 waterTileParticleContainer.addChild(tileSprite);
 
-                const perlinHeight = 10;
 
-                const perlinY = Math.trunc(noise.simplex2(tilePosition.x / perlinHeight, tilePosition.y / perlinHeight) * perlinHeight);
+                const perlin = getPerlinBySeed(tilePosition);
 
-                if(perlinY < 5) continue;
+                if(perlin < 5) continue;
 
-                const tile = new PIXI.Sprite(tileA);
+                const getCollideTile = (x: number, y: number) => getPerlinBySeed({ x: tilePosition.x + x, y: tilePosition.y + y });
+
+                const tileSeed = parseFloat(`0.${perlin * 99}`);
+
+                let tileTexture = textures.get(`rock_${getRandomNumber(0, 5, tileSeed)}` as TexturesEnum);
+
+                const tileWaterSides = [];
+
+                /*
+
+                -0-1-2-
+                -3-X-4-
+                -5-6-7-
+
+                 */
+                let index = 0;
+                for (let pY = -1; pY < 2; pY++) {
+                    for (let pX = -1; pX < 2; pX++) {
+                        if(pX === 0 && pY === 0) continue;
+
+                        if(getCollideTile(pX, pY) < 5)
+                            tileWaterSides.push(index);
+                        index++;
+                    }
+                }
+                const areTilesWaterEvery = (indexTileWaterArray: number[]) => indexTileWaterArray.every(v => tileWaterSides.includes(v));
+                const areTilesWaterSome = (indexTileWaterArray: number[]) => tileWaterSides.every(v => indexTileWaterArray.includes(v));
+
+
+                if(areTilesWaterEvery([5, 6, 7]))
+                    tileTexture = textures.get(TexturesEnum.TILE_1_F);
+
+                if(areTilesWaterSome([1, 3, 4, 6]))
+                    tileTexture = textures.get(TexturesEnum. TILE_2_1);
+
+
+                const tile = new PIXI.Sprite(tileTexture);
                 tile.position.copyFrom(correctedTilePosition);
 
-                terrainTileContainer.addChild(tile)
-
+                terrainTileContainer.addChild(tile);
             }
         }
     }

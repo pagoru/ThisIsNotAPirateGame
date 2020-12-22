@@ -5,6 +5,7 @@ import {EventEnum} from "../../../events/event/event.enum";
 import {KeyboardDataType} from "../../../events/callback/keyboard/keyboard.data.type";
 import {ScreenEnum} from "../screen/screen.enum";
 import {Sandbox} from "../../sandbox";
+import {Program} from "../../../program";
 
 export class GameScreen extends ScreenAbstract {
 
@@ -24,6 +25,7 @@ export class GameScreen extends ScreenAbstract {
     protected onAdded() {
         super.onAdded();
         Sandbox.load();
+        Program.getInstance().canvas.camera.set({ x:0,  y: 0 })
     }
 
     protected update(delta: number) {

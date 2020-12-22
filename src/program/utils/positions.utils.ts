@@ -15,8 +15,8 @@ export const isPositionInsideContainer = (
 export const getTilePosition = (
     position: PIXI.IPointData
 ): PIXI.Point => new PIXI.Point(
-    Math.trunc(position.x / TILE_SIZE.width),
-    Math.trunc(position.y / TILE_SIZE.height)
+    (position.x < 0 ? -1 : 0) + Math.trunc(position.x / TILE_SIZE.width),
+    (position.y < 0 ? -1 : 0) + Math.trunc(position.y / TILE_SIZE.height)
 )
 
 export const getInvertedPosition = (
@@ -25,3 +25,8 @@ export const getInvertedPosition = (
     x: - position.x + 0,
     y: - position.y + 0
 })
+
+export const getPositionFromAngle = (angle: number): PIXI.IPointData => ({
+    x: Math.cos(angle * Math.PI / 180),
+    y: Math.sin(angle * Math.PI / 180)
+});

@@ -7,10 +7,12 @@ import {Events} from "../../../events/events";
 import {KeyboardDataType} from "../../../events/callback/keyboard/keyboard.data.type";
 import {RotationInterface} from "../../components/rotation/rotation.interface";
 import {AccelerationInterface} from "../../components/acceleration/acceleration.interface";
-import {getTilePosition} from "../../../utils/positions.utils";
+import {getPositionFromAngle, getTilePosition} from "../../../utils/positions.utils";
 import {Program} from "../../../program";
 import {ScreenEnum} from "../../../canvas/screens/screen/screen.enum";
 import {LifeInterface} from "../../components/life/life.interface";
+import {getPerlinBySeed} from "../../../utils/perlin.utils";
+import {PivotInterface} from "../../components/pivot/pivot.interface";
 
 export class EntityControl extends SystemAbstract {
 
@@ -43,8 +45,8 @@ export class EntityControl extends SystemAbstract {
             [ComponentEnum.POSITION]: position,
             [ComponentEnum.ROTATION]: rotation,
             [ComponentEnum.ACCELERATION]: acceleration,
-            [ComponentEnum.LIFE]: life
-        } = entity.getData<PositionInterface & RotationInterface & AccelerationInterface & LifeInterface>();
+            [ComponentEnum.LIFE]: life,
+        } = entity.getData<PositionInterface & RotationInterface & AccelerationInterface & LifeInterface & PivotInterface>();
 
         const isKeyWDown = this.keyPressMap.get('KeyW');
 
@@ -67,17 +69,13 @@ export class EntityControl extends SystemAbstract {
             rotation.angle -= delta * targetAcceleration / 4;
 
 
-        const currentTilePosition = getTilePosition(position);
+        const positionFromAngle = getPositionFromAngle(rotation.angle);
 
-        position.x += delta * Math.cos(rotation.angle * Math.PI / 180) * targetAcceleration;
-        position.y += delta * Math.sin(rotation.angle * Math.PI / 180) * targetAcceleration;
-
-        const targetTilePosition = getTilePosition(position);
+        position.x += delta * positionFromAngle.x * targetAcceleration;
+        position.y += delta * positionFromAngle.y * targetAcceleration;
 
         this.collision(
             entity,
-            currentTilePosition,
-            targetTilePosition,
             rotation,
             life,
         );
@@ -92,33 +90,32 @@ export class EntityControl extends SystemAbstract {
 
     protected collision(
         entity: EntityAbstract,
-        currentTilePosition: PIXI.Point,
-        targetTilePosition: PIXI.Point,
         rotation: RotationInterface[ComponentEnum.ROTATION],
-        life: LifeInterface[ComponentEnum.LIFE]
+        life: LifeInterface[ComponentEnum.LIFE],
     ) {
-        if(currentTilePosition.equals(targetTilePosition)) return false;
+        const spriteEntity = Program.getInstance().canvas.stage.getChildByName(entity.id);
+        if(!spriteEntity) return false;
 
-        // detect array tiles
-        if(targetTilePosition.equals({ x: 0, y: 0 })) {
-            life.current--;
+        const targetTilePosition = getTilePosition(spriteEntity.position);
+        const perlin = getPerlinBySeed(targetTilePosition);
 
-            if(life.current > 0) {
-                rotation.angle -= 180;
-                return false;
-            }
+        if(perlin < 5) return false;
 
-            entity.updateData<LifeInterface>({
-                [ComponentEnum.LIFE]: life
-            });
+        life.current--;
 
-            entity.removeComponent(ComponentEnum.KEYBOARD_CONTROL);
-            entity.removeComponent(ComponentEnum.CAMERA_CONTROL);
-            Program.getInstance().canvas.setScreen(ScreenEnum.GAME_OVER);
+        if(life.current > 0) {
+            rotation.angle -= 180;
             return true;
         }
 
-        return false;
+        entity.updateData<LifeInterface>({
+            [ComponentEnum.LIFE]: life
+        });
+
+        entity.removeComponent(ComponentEnum.KEYBOARD_CONTROL);
+        entity.removeComponent(ComponentEnum.CAMERA_CONTROL);
+        Program.getInstance().canvas.setScreen(ScreenEnum.GAME_OVER);
+        return true;
     }
 
     protected onDataEntityUpdate(

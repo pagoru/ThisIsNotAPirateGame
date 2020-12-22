@@ -13,7 +13,7 @@ export class Player extends EntityAbstract {
     ) {
         super(EntityEnum.PLAYER);
 
-        const friction = getRandomNumber(2, 8) / 10;
+        const friction = getRandomNumber(2, 8) / 50;
         const maxVelocity = getRandomNumber(6, 12);
         const velocity = getRandomNumber(6, 14) / 10;
 
