@@ -7,9 +7,13 @@ import {GameMapInterface} from "../../components/gameMap/gameMap.interface";
 import {Program} from "../../../program";
 import {TexturesEnum} from "../../../canvas/textures/textures.enum";
 import {TILE_SIZE} from "../../../utils/tile.utils";
-import {getPerlinBySeed} from "../../../utils/perlin.utils";
+import {
+    getObjectFromPerlinPosition,
+    getPerlinBySeed,
+    getTileTextureFromPosition,
+    PERLIN_HEIGHT
+} from "../../../utils/perlin.utils";
 import {getRandomNumber} from "../../../utils/number.utils";
-import {TEXTURE_NODES} from "./textureNodes/textureNodes";
 
 const MAP_CONTAINER = 'MAP_CONTAINER';
 const WATER_TILE_PARTICLE_CONTAINER = 'WATER_TILE_PARTICLE_CONTAINER';
@@ -67,48 +71,21 @@ export class GameMap extends SystemAbstract {
 
     }
 
-    private getTileTexture(
-        tilePosition: PIXI.IPointData,
-        perlin: number
-    ): TexturesEnum {
-
-        const tileSeed = parseFloat(`0.${perlin * 99}`);
-
-        //out of this fori bieathc
-        // [N, NE, E, SE, S, SO, O, NO]
-        const nodeRelativePosArr = [[-1, -1], [0, -1], [1, -1], [1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0]];
-
-        const getCollideTile = (position : PIXI.IPointData) => getPerlinBySeed({ x: tilePosition.x + position.x, y: tilePosition.y + position.y });
-
-        const cardinalNodes = nodeRelativePosArr
-            .map((posArr) => getCollideTile({ x: posArr[0], y: posArr[1] }))
-            .map((collideTile, index) => collideTile < 5 ? null : index)
-            .filter(collideIndex => collideIndex !== null);
-
-        const isTileNodesValid = (...nodeArr: number[]) => nodeArr.every((v, i) => cardinalNodes[i] === v)
-            && nodeArr.length === cardinalNodes.length;
-
-        const textureName = TEXTURE_NODES
-            .find(node => node.nodeArray.some(tileNodes => isTileNodesValid(...tileNodes)))
-            ?.textureName({ tileSeed });
-
-        return textureName || `rock_${getRandomNumber(0, 5, tileSeed)}` as TexturesEnum;
-    }
-
     private renderMap(
         position: PIXI.IPointData
     ) {
         const { textures, stage } = Program.getInstance().canvas;
 
         const mapContainer = stage.getChildByName(MAP_CONTAINER) as PIXI.Container;
+        if(!mapContainer) return;
         const waterTileParticleContainer = mapContainer.getChildByName(WATER_TILE_PARTICLE_CONTAINER) as PIXI.ParticleContainer;
+        if(!waterTileParticleContainer) return;
         const terrainTileContainer = mapContainer.getChildByName(TERRAIN_TILE_CONTAINER) as PIXI.Container;
 
         waterTileParticleContainer.removeChildren();
         terrainTileContainer.removeChildren();
 
         const waterTileTexture = textures.get(TexturesEnum.TILE_WATER);
-
 
         for (let y = -6; y < 7; y++) {
             for (let x = -9; x < 10; x++) {
@@ -126,15 +103,50 @@ export class GameMap extends SystemAbstract {
 
                 waterTileParticleContainer.addChild(tileSprite);
 
-
                 const perlin = getPerlinBySeed(tilePosition);
 
-                if(perlin < 5) continue;
+                if(perlin < PERLIN_HEIGHT) continue;
 
-                const tile = new PIXI.Sprite(textures.get(this.getTileTexture(tilePosition, perlin)));
+                const tile = new PIXI.Sprite(textures.get(getTileTextureFromPosition(tilePosition)));
                 tile.position.copyFrom(correctedTilePosition);
 
                 terrainTileContainer.addChild(tile);
+            }
+        }
+        for (let y = -6; y < 7; y++) {
+            for (let x = -9; x < 10; x++) {
+
+
+                const tilePosition = {
+                    x: position.x + x,
+                    y: position.y + y
+                }
+
+                const perlin = getPerlinBySeed(tilePosition);
+                const targetObject = getObjectFromPerlinPosition(tilePosition, perlin);
+
+                if(!targetObject) continue;
+
+                const correctedTilePosition = new PIXI.Point(
+                    tilePosition.x * TILE_SIZE.width,
+                    tilePosition.y * TILE_SIZE.height
+                );
+
+                const objectTexture = getObjectFromPerlinPosition(correctedTilePosition, perlin);
+                if(!objectTexture) continue;
+
+                const spriteTexture = Program.getInstance().canvas.textures.get(objectTexture);
+                const correctedObjectPosition = new PIXI.Point(
+                    correctedTilePosition.x - getRandomNumber(0, 128, perlin),
+                    correctedTilePosition.y - getRandomNumber(0, 128, perlin)
+                );
+
+                const spriteObject = new PIXI.Sprite(spriteTexture);
+                spriteObject.zIndex = 998;
+                spriteObject.position.copyFrom(correctedObjectPosition);
+
+                terrainTileContainer.addChild(spriteObject);
+
             }
         }
     }

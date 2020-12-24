@@ -9,10 +9,11 @@ export class Sandbox {
     static load = () => {
         Events.on(EventEnum.UPDATE, Sandbox.update);
 
-        const player = new Player({ x: 0, y: 0 }, 180);
+        const player = new Player({ x: 0, y: 0 }, -90);
         const gameMap = new GameMap();
 
         Program.getInstance().game.entities.addEntity(player, gameMap);
+
     }
 
     static update = (delta: number) => {

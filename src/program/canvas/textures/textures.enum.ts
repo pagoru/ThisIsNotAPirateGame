@@ -59,6 +59,10 @@ export enum TexturesEnum {
     TILE_4_A = 'tile_4_A',
     TILE_4_B = 'tile_4_B',
 
+    CREW_1 = 'crew_1',
+
+    PLANT_1 = 'plant_1',
+
     ROCK_0 = 'rock_0',
     ROCK_1 = 'rock_1',
     ROCK_2 = 'rock_2',

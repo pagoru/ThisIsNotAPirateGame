@@ -12,6 +12,7 @@ export class Acceleration extends ComponentAbstract<AccelerationInterface> {
                     velocity: 1,
                     friction: 1,
                     max: 10,
+                    min: 2,
                     current: 0
                 }
             }

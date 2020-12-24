@@ -11,7 +11,7 @@ import {getPositionFromAngle, getTilePosition} from "../../../utils/positions.ut
 import {Program} from "../../../program";
 import {ScreenEnum} from "../../../canvas/screens/screen/screen.enum";
 import {LifeInterface} from "../../components/life/life.interface";
-import {getPerlinBySeed} from "../../../utils/perlin.utils";
+import {getPerlinBySeed, PERLIN_HEIGHT} from "../../../utils/perlin.utils";
 import {PivotInterface} from "../../components/pivot/pivot.interface";
 
 export class EntityControl extends SystemAbstract {
@@ -48,26 +48,35 @@ export class EntityControl extends SystemAbstract {
             [ComponentEnum.LIFE]: life,
         } = entity.getData<PositionInterface & RotationInterface & AccelerationInterface & LifeInterface & PivotInterface>();
 
-        const isKeyWDown = this.keyPressMap.get('KeyW');
+        // const isKeyWDown = this.keyPressMap.get('KeyW');
 
-        if(!isKeyWDown && acceleration.current === 0) return;
+        // if(acceleration.current === 0) return;
 
-        let targetAcceleration = acceleration.current + (isKeyWDown ? delta * acceleration.velocity : - delta * acceleration.friction);
+        const isKeyDDown = this.keyPressMap.get('KeyD');
+        const isKeyADown = this.keyPressMap.get('KeyA');
+
+        let targetAcceleration = acceleration.current + ((isKeyDDown || isKeyADown)
+            ? -(delta * acceleration.friction)
+            : (delta * acceleration.velocity));
 
         if(targetAcceleration > acceleration.max)
             targetAcceleration = acceleration.max;
+
+        if(targetAcceleration < acceleration.min)
+            targetAcceleration = acceleration.min;
 
         if(0 > targetAcceleration)
             targetAcceleration = 0;
 
         acceleration.current = targetAcceleration;
 
-        if (targetAcceleration > 0 && this.keyPressMap.get('KeyD'))
+        if (targetAcceleration > 0 && isKeyDDown)
             rotation.angle += delta * targetAcceleration / 4;
 
-        if (targetAcceleration > 0 && this.keyPressMap.get('KeyA'))
+        if (targetAcceleration > 0 && isKeyADown)
             rotation.angle -= delta * targetAcceleration / 4;
 
+        // console.log('2', targetAcceleration);
 
         const positionFromAngle = getPositionFromAngle(rotation.angle);
 
@@ -99,7 +108,7 @@ export class EntityControl extends SystemAbstract {
         const targetTilePosition = getTilePosition(spriteEntity.position);
         const perlin = getPerlinBySeed(targetTilePosition);
 
-        if(perlin < 5) return false;
+        if(perlin < PERLIN_HEIGHT) return false;
 
         life.current--;
 

@@ -12,6 +12,8 @@ export class GameMap extends EntityAbstract {
 
         GameMap.id = this.id;
 
+        console.log(getRandomNumber(0, 9999))
+
         this.addComponent(ComponentEnum.POSITION, { [ComponentEnum.POSITION]: { x: 0, y: 0 } } );
         this.addComponent(ComponentEnum.GAME_MAP, { [ComponentEnum.GAME_MAP]: { seed: getRandomNumber(0, 9999) } } );
     }

@@ -8,7 +8,7 @@ export const TEXTURE_NODES: TextureNodesType[] = [
         nodeArray: [
             [0, 1, 2, 3, 4, 5, 6, 7],
         ],
-        textureName: (data: any) => `tile_2_${getRandomNumber(1, 4, data.tileSeed)}` as TexturesEnum
+        textureName: (data: any) => `tile_2_${getRandomNumber(1, 4, data.seed)}` as TexturesEnum
     },
     // Inside Tile 4A
     {
@@ -63,6 +63,9 @@ export const TEXTURE_NODES: TextureNodesType[] = [
             [0, 1, 3, 5, 7],
             [0, 1, 3, 7],
             [0, 1, 2, 5, 7],
+            [0, 1, 3, 4, 7],
+            [0, 1, 4, 5, 7],
+            [0, 1, 3, 6, 7],
         ],
         textureName: () => TexturesEnum.TILE_1_E
     },
@@ -76,10 +79,15 @@ export const TEXTURE_NODES: TextureNodesType[] = [
             [0, 1, 2, 3],
             [1, 2, 3, 5, 7],
             [1, 2, 3, 4],
+            [1, 2, 3, 6, 7],
+            [1, 2, 3, 6],
+            [1, 2, 3, 5, 6],
+            [0, 1, 2, 3, 5],
+            [1, 2, 3, 4, 7],
         ],
         textureName: () => TexturesEnum.TILE_1_G
     },
-    // Top Right
+    // Top Left
     {
         nodeArray: [
             [3, 4, 5],
@@ -87,12 +95,18 @@ export const TEXTURE_NODES: TextureNodesType[] = [
             [2, 3, 4, 5],
             [1, 3, 4, 5,],
             [2, 3, 4, 5, 6],
+            [2, 3, 4, 5, 7],
             [3, 4, 5, 7],
             [1, 3, 4, 5, 7],
+            [0, 1, 3, 4, 5],
+            [0, 3, 4, 5, 7],
+            [0, 3, 4, 5],
+            [1, 3, 4, 5, 7],
+            [1, 3, 4, 5, 6],
         ],
         textureName: () => TexturesEnum.TILE_1_A
     },
-    // Top Left
+    // Top Right
     {
         nodeArray: [
             [0, 4, 5, 6, 7],
@@ -102,8 +116,12 @@ export const TEXTURE_NODES: TextureNodesType[] = [
             [3, 5, 6, 7],
             [5, 6, 7],
             [1, 5, 6, 7],
-            [2, 3, 4, 5, 7],
             [1, 2, 3, 5, 6, 7],
+            [1, 2, 5, 6, 7],
+            [2, 5, 6, 7],
+            [2, 3, 5, 6, 7],
+            [1, 4, 5, 6, 7],
+            [0, 1, 4, 7],
         ],
         textureName: () => TexturesEnum.TILE_1_C
     },

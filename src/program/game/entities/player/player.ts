@@ -14,8 +14,9 @@ export class Player extends EntityAbstract {
         super(EntityEnum.PLAYER);
 
         const friction = getRandomNumber(2, 8) / 50;
-        const maxVelocity = getRandomNumber(6, 12);
-        const velocity = getRandomNumber(6, 14) / 10;
+        const maxVelocity = getRandomNumber(8, 10);
+        const minVelocity = getRandomNumber(2, 5);
+        const velocity = getRandomNumber(2, 20) / 10;
 
         const texture = `ship_${getRandomNumber(1, 6)}_0` as TexturesEnum;
 
@@ -24,7 +25,7 @@ export class Player extends EntityAbstract {
         this.addComponent(ComponentEnum.ROTATION, { [ComponentEnum.ROTATION]: { angle: rotation } } );
         this.addComponent(ComponentEnum.KEYBOARD_CONTROL, { [ComponentEnum.KEYBOARD_CONTROL]: { enabled: true } } );
         this.addComponent(ComponentEnum.CAMERA_CONTROL, { [ComponentEnum.CAMERA_CONTROL]: { follow: true } });
-        this.addComponent(ComponentEnum.ACCELERATION, { [ComponentEnum.ACCELERATION]: { current: 0, max: maxVelocity, friction, velocity } });
+        this.addComponent(ComponentEnum.ACCELERATION, { [ComponentEnum.ACCELERATION]: { current: 0, max: maxVelocity, min: minVelocity, friction, velocity } });
         this.addComponent(ComponentEnum.PIVOT, { [ComponentEnum.PIVOT]: { x: 0, y: 25 } } );
         this.addComponent(ComponentEnum.LIFE, { [ComponentEnum.LIFE]: { max: 3, current: 3 } } );
     }
