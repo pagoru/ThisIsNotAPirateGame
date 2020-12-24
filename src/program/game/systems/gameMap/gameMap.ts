@@ -9,6 +9,7 @@ import {TexturesEnum} from "../../../canvas/textures/textures.enum";
 import {TILE_SIZE} from "../../../utils/tile.utils";
 import {getPerlinBySeed} from "../../../utils/perlin.utils";
 import {getRandomNumber} from "../../../utils/number.utils";
+import {TEXTURE_NODES} from "./textureNodes/textureNodes";
 
 const MAP_CONTAINER = 'MAP_CONTAINER';
 const WATER_TILE_PARTICLE_CONTAINER = 'WATER_TILE_PARTICLE_CONTAINER';
@@ -66,6 +67,34 @@ export class GameMap extends SystemAbstract {
 
     }
 
+    private getTileTexture(
+        tilePosition: PIXI.IPointData,
+        perlin: number
+    ): TexturesEnum {
+
+        const tileSeed = parseFloat(`0.${perlin * 99}`);
+
+        //out of this fori bieathc
+        // [N, NE, E, SE, S, SO, O, NO]
+        const nodeRelativePosArr = [[-1, -1], [0, -1], [1, -1], [1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0]];
+
+        const getCollideTile = (position : PIXI.IPointData) => getPerlinBySeed({ x: tilePosition.x + position.x, y: tilePosition.y + position.y });
+
+        const cardinalNodes = nodeRelativePosArr
+            .map((posArr) => getCollideTile({ x: posArr[0], y: posArr[1] }))
+            .map((collideTile, index) => collideTile < 5 ? null : index)
+            .filter(collideIndex => collideIndex !== null);
+
+        const isTileNodesValid = (...nodeArr: number[]) => nodeArr.every((v, i) => cardinalNodes[i] === v)
+            && nodeArr.length === cardinalNodes.length;
+
+        const textureName = TEXTURE_NODES
+            .find(node => node.nodeArray.some(tileNodes => isTileNodesValid(...tileNodes)))
+            ?.textureName({ tileSeed });
+
+        return textureName || `rock_${getRandomNumber(0, 5, tileSeed)}` as TexturesEnum;
+    }
+
     private renderMap(
         position: PIXI.IPointData
     ) {
@@ -79,6 +108,7 @@ export class GameMap extends SystemAbstract {
         terrainTileContainer.removeChildren();
 
         const waterTileTexture = textures.get(TexturesEnum.TILE_WATER);
+
 
         for (let y = -6; y < 7; y++) {
             for (let x = -9; x < 10; x++) {
@@ -101,43 +131,7 @@ export class GameMap extends SystemAbstract {
 
                 if(perlin < 5) continue;
 
-                const getCollideTile = (x: number, y: number) => getPerlinBySeed({ x: tilePosition.x + x, y: tilePosition.y + y });
-
-                const tileSeed = parseFloat(`0.${perlin * 99}`);
-
-                let tileTexture = textures.get(`rock_${getRandomNumber(0, 5, tileSeed)}` as TexturesEnum);
-
-                const tileWaterSides = [];
-
-                /*
-
-                -0-1-2-
-                -3-X-4-
-                -5-6-7-
-
-                 */
-                let index = 0;
-                for (let pY = -1; pY < 2; pY++) {
-                    for (let pX = -1; pX < 2; pX++) {
-                        if(pX === 0 && pY === 0) continue;
-
-                        if(getCollideTile(pX, pY) < 5)
-                            tileWaterSides.push(index);
-                        index++;
-                    }
-                }
-                const areTilesWaterEvery = (indexTileWaterArray: number[]) => indexTileWaterArray.every(v => tileWaterSides.includes(v));
-                const areTilesWaterSome = (indexTileWaterArray: number[]) => tileWaterSides.every(v => indexTileWaterArray.includes(v));
-
-
-                if(areTilesWaterEvery([5, 6, 7]))
-                    tileTexture = textures.get(TexturesEnum.TILE_1_F);
-
-                if(areTilesWaterSome([1, 3, 4, 6]))
-                    tileTexture = textures.get(TexturesEnum. TILE_2_1);
-
-
-                const tile = new PIXI.Sprite(tileTexture);
+                const tile = new PIXI.Sprite(textures.get(this.getTileTexture(tilePosition, perlin)));
                 tile.position.copyFrom(correctedTilePosition);
 
                 terrainTileContainer.addChild(tile);

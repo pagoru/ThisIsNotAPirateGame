@@ -47,6 +47,17 @@ export enum TexturesEnum {
     TILE_1_H = 'tile_1_H',
 
     TILE_2_1 = 'tile_2_1',
+    TILE_2_2 = 'tile_2_2',
+    TILE_2_3 = 'tile_2_3',
+    TILE_2_4 = 'tile_2_4',
+
+    TILE_3_A = 'tile_3_A',
+    TILE_3_B = 'tile_3_B',
+    TILE_3_C = 'tile_3_C',
+    TILE_3_D = 'tile_3_D',
+
+    TILE_4_A = 'tile_4_A',
+    TILE_4_B = 'tile_4_B',
 
     ROCK_0 = 'rock_0',
     ROCK_1 = 'rock_1',
