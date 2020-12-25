@@ -66,6 +66,8 @@ export const TEXTURE_NODES: TextureNodesType[] = [
             [0, 1, 3, 4, 7],
             [0, 1, 4, 5, 7],
             [0, 1, 3, 6, 7],
+            [0, 1, 4, 7],
+            [0, 1, 2, 4, 7],
         ],
         textureName: () => TexturesEnum.TILE_1_E
     },
@@ -84,6 +86,7 @@ export const TEXTURE_NODES: TextureNodesType[] = [
             [1, 2, 3, 5, 6],
             [0, 1, 2, 3, 5],
             [1, 2, 3, 4, 7],
+            [0, 1, 2, 3, 4, 6],
         ],
         textureName: () => TexturesEnum.TILE_1_G
     },
@@ -121,7 +124,7 @@ export const TEXTURE_NODES: TextureNodesType[] = [
             [2, 5, 6, 7],
             [2, 3, 5, 6, 7],
             [1, 4, 5, 6, 7],
-            [0, 1, 4, 7],
+            [0, 3, 5, 6, 7],
         ],
         textureName: () => TexturesEnum.TILE_1_C
     },

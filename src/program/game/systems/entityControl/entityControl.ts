@@ -11,8 +11,11 @@ import {getPositionFromAngle, getTilePosition} from "../../../utils/positions.ut
 import {Program} from "../../../program";
 import {ScreenEnum} from "../../../canvas/screens/screen/screen.enum";
 import {LifeInterface} from "../../components/life/life.interface";
-import {getPerlinBySeed, PERLIN_HEIGHT} from "../../../utils/perlin.utils";
+import {getObjectFromPerlinPosition, getPerlinBySeed, PERLIN_HEIGHT} from "../../../utils/perlin.utils";
 import {PivotInterface} from "../../components/pivot/pivot.interface";
+import {GameMap} from "../gameMap/gameMap";
+import * as PIXI from "pixi.js";
+import {TILE_SIZE} from "../../../utils/tile.utils";
 
 export class EntityControl extends SystemAbstract {
 
@@ -89,12 +92,46 @@ export class EntityControl extends SystemAbstract {
             life,
         );
 
+        this.objectCollision(
+            entity
+        );
+
         entity.updateData<PositionInterface & RotationInterface & AccelerationInterface & LifeInterface>({
             [ComponentEnum.POSITION]: position,
             [ComponentEnum.ROTATION]: rotation,
             [ComponentEnum.ACCELERATION]: acceleration,
             [ComponentEnum.LIFE]: life
         });
+    }
+
+    protected objectCollision(
+        entity: EntityAbstract,
+    ) {
+        const spriteEntity = Program.getInstance().canvas.stage.getChildByName(entity.id);
+        if(!spriteEntity) return false;
+
+        const targetTilePosition = getTilePosition(spriteEntity.position);
+        const perlin = getPerlinBySeed(targetTilePosition);
+        const reversedPerlin = getPerlinBySeed(targetTilePosition, 10, true);
+
+        const correctedTilePosition = new PIXI.Point(
+            targetTilePosition.x * TILE_SIZE.width,
+            targetTilePosition.y * TILE_SIZE.height
+        );
+
+        const currentSeed = reversedPerlin / 10 - ( correctedTilePosition.x * 2 + correctedTilePosition.y);
+
+        const targetObject = getObjectFromPerlinPosition(targetTilePosition, perlin, reversedPerlin, currentSeed);
+
+        if(!targetObject || targetObject.indexOf('crew_') !== 0) return;
+
+        console.log(targetObject)
+
+        const objectEntity = GameMap.getTerrainTilesContainer()
+            .getChildByName(`object_${currentSeed}`);
+
+        objectEntity.alpha = 0;
+        console.log(objectEntity)
     }
 
     protected collision(

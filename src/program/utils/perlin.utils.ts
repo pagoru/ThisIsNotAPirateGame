@@ -11,25 +11,29 @@ import {TextureNodesType} from "../game/systems/gameMap/textureNodes/textureNode
 
 let seed: number;
 let noise: Noise;
+let reversedNoise: Noise;
 
 const spawnRadius = 5;
 
 export const PERLIN_HEIGHT = 3;
 
-export function getPerlinBySeed(tilePosition: PIXI.IPointData, h: number = 10): number {
+export function getPerlinBySeed(tilePosition: PIXI.IPointData, h: number = 10, reversedSeed: boolean = false): number {
     const currentSeed = Program.getInstance().game.entities
         .get(GameMap.id)
         .getData<GameMapInterface>()[ComponentEnum.GAME_MAP].seed;
     if(seed !== currentSeed) {
         seed = currentSeed;
         noise = new Noise(currentSeed)
+        reversedNoise = new Noise(currentSeed * Math.PI);
     }
 
     if(spawnRadius > tilePosition.x && -spawnRadius < tilePosition.x
         && spawnRadius > tilePosition.y && -spawnRadius < tilePosition.y)
         return 0;
 
-    return Math.trunc(noise.simplex2(tilePosition.x / h, tilePosition.y / h) * h);
+    const _noise = reversedSeed ? reversedNoise : noise;
+
+    return Math.trunc(_noise.simplex2(tilePosition.x / h, tilePosition.y / h) * h);
 }
 
 export function getTileTextureFromPosition(
@@ -61,17 +65,32 @@ export function getTileTextureNodeFromPosition(
 
 export function getObjectFromPerlinPosition(
     tilePosition: PIXI.IPointData,
-    perlin: number
+    perlin: number,
+    reversedPerlin: number,
+    currentSeed: number
 ): TexturesEnum | undefined {
 
-    const isValid = (max: number) => getRandomNumber(0, max, seed * perlin) === 0;
+    const isWater = perlin < PERLIN_HEIGHT;
 
-    if(isValid(1000) && perlin < PERLIN_HEIGHT)
-        return TexturesEnum.CREW_1;
+    const tileTexture = isWater ? undefined : getTileTextureFromPosition(tilePosition);
+    // const reversedTileTexture = getTileTextureNodeFromPosition(tilePosition)?.textureName({ seed: -seed * reversedPerlin });
 
-    const tileTexture = getTileTextureNodeFromPosition(tilePosition);
-    if(isValid(1) && tileTexture?.textureName({ seed: seed * perlin }).indexOf('tile_2') === 0)
-        return TexturesEnum.PLANT_1;
+    if(reversedPerlin < PERLIN_HEIGHT - 2)
+        return;
 
-    return undefined;
+    const isNumberBetween = (max: number): boolean =>
+        getRandomNumber(0, max, currentSeed) === 0;
+
+    if(isWater && isNumberBetween(90))
+        return `crew_${getRandomNumber(1, 6, currentSeed)}` as TexturesEnum;
+
+    // console.log(tileTexture, tileTexture?.indexOf('tile_2_') === 0)
+    if(tileTexture !== undefined && tileTexture?.indexOf('tile_2_') === 0)
+        return `plant_${getRandomNumber(1, 5, currentSeed)}` as TexturesEnum;
+
+    // const tileTexture = getTileTextureNodeFromPosition(tilePosition);
+    // if(tileTexture?.textureName({ seed: seed * perlin }).indexOf('tile_2') === 0)
+    //     return TexturesEnum.PLANT_1;
+
+    return;
 }
